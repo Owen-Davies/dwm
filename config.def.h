@@ -26,20 +26,20 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h         floatborderpx*/
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1,  50,50,500,500,        5  },
-	{ "st-256color", NULL,    "cava",    1 << 8,      0,           -1 ,  50,50,500,500,        5},
-	{ "st-256color", NULL,    "ncmpcpp",    1 << 8,      0,           -1 ,  50,50,500,500,        5},
-	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5},
-	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5},
-	{ "Firefox",  NULL,       NULL,       1 << 5,       0,           -1 ,  50,50,500,500,        5},
-	{ "Signal", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5},
-	{ "Microsoft Teams - Preview", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5},
-	{ "Messenger for Desktop", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5},
-	{ "st-256color", NULL,    "Notes",    1 << 3,      0,           -1 ,  50,50,500,500,        5},
-	{ "st-256color", NULL,    "Organised",1 << 2,      0,          -1 ,  50,50,500,500,        5},
-	{ "st-256color", NULL,    "Code",     1 << 1,      0,           -1 ,  50,50,500,500,        5},
-
+	/* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h         floatborderpx     scratch key */
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1,  50,50,500,500,        5, 0 },
+	{ "st-256color", NULL,    "cava",    1 << 8,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "st-256color", NULL,    "ncmpcpp",    1 << 8,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5, 0},
+	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5, 0},
+	{ "Firefox",  NULL,       NULL,       1 << 5,       0,           -1 ,  50,50,500,500,        5, 0},
+	{ "Signal", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "Microsoft Teams - Preview", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "Messenger for Desktop", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "st-256color", NULL,    "Notes",    1 << 3,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "st-256color", NULL,    "Organised",1 << 2,      0,          -1 ,  50,50,500,500,        5, 0},
+	{ "st-256color", NULL,    "Code",     1 << 1,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,   50,50,500,500, 5,    's' },
 };
 
 
@@ -75,6 +75,8 @@ static const char *bookmarkscmd[]  = { "demnu-bm", NULL };
 static const char *slockcmd[]  = { "slock", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+/*First arg only serves to match against key in rules*/
+static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -84,6 +86,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_e, 	   spawn,          {.v = vifmcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {.v = bookmarkscmd} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
