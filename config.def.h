@@ -26,19 +26,19 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "st-256color", NULL,    "cava",    1 << 8,      0,           -1 },
-	{ "st-256color", NULL,    "ncmpcpp",    1 << 8,      0,           -1 },
-	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 },
-	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 5,       0,           -1 },
-	{ "Signal", NULL,    NULL,    1 << 4,      0,           -1 },
-	{ "Microsoft Teams - Preview", NULL,    NULL,    1 << 4,      0,           -1 },
-	{ "Messenger for Desktop", NULL,    NULL,    1 << 4,      0,           -1 },
-	{ "st-256color", NULL,    "Notes",    1 << 3,      0,           -1 },
-	{ "st-256color", NULL,    "Organised",1 << 2,      0,          -1 },
-	{ "st-256color", NULL,    "Code",     1 << 1,      0,           -1 },
+	/* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h         floatborderpx*/
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1,  50,50,500,500,        5  },
+	{ "st-256color", NULL,    "cava",    1 << 8,      0,           -1 ,  50,50,500,500,        5},
+	{ "st-256color", NULL,    "ncmpcpp",    1 << 8,      0,           -1 ,  50,50,500,500,        5},
+	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5},
+	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5},
+	{ "Firefox",  NULL,       NULL,       1 << 5,       0,           -1 ,  50,50,500,500,        5},
+	{ "Signal", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5},
+	{ "Microsoft Teams - Preview", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5},
+	{ "Messenger for Desktop", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5},
+	{ "st-256color", NULL,    "Notes",    1 << 3,      0,           -1 ,  50,50,500,500,        5},
+	{ "st-256color", NULL,    "Organised",1 << 2,      0,          -1 ,  50,50,500,500,        5},
+	{ "st-256color", NULL,    "Code",     1 << 1,      0,           -1 ,  50,50,500,500,        5},
 
 };
 
