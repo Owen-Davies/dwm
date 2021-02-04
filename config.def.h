@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack Nerd Font:size=12" };
-static const char dmenufont[]       = "Hack Nerd Font:size=12";
+static const char *fonts[]          = { "Hack Nerd Font:size=8" };
+static const char dmenufont[]       = "Hack Nerd Font:size=8";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -27,7 +27,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h         floatborderpx     scratch key */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1,  50,50,500,500,        5, 0 },
+	{ "Gimp",     NULL,       NULL,       1 <<6,            0,           -1,  50,50,1000,1000,        5, 0 },
 	{ "st-256color", NULL,    "cava",    1 << 8,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ "st-256color", NULL,    "ncmpcpp",    1 << 8,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ "Virt-manager",  NULL,       NULL,       1 << 7,       0,           -1 ,  50,50,500,500,        5, 0},
@@ -35,11 +35,14 @@ static const Rule rules[] = {
 	{ "Firefox",  NULL,       NULL,       1 << 5,       0,           -1 ,  50,50,500,500,        5, 0},
 	{ "Signal", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ "Microsoft Teams - Preview", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
+	{ "whatsdesk", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ "Messenger for Desktop", NULL,    NULL,    1 << 4,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ "st-256color", NULL,    "Notes",    1 << 3,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ "st-256color", NULL,    "Organised",1 << 2,      0,          -1 ,  50,50,500,500,        5, 0},
 	{ "st-256color", NULL,    "Code",     1 << 1,      0,           -1 ,  50,50,500,500,        5, 0},
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,   50,50,500,500, 5,    's' },
+	{ NULL,       NULL,   "cheatsheet",   0,            1,           -1,   50,50,1000,1000, 5,    't' },
+	{ NULL,       NULL,   "Calculator",   0,            1,           -1,   50,50,1000,1000, 5,    'c' }
 };
 
 
@@ -48,11 +51,13 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
+#include "layouts.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "HHH",      grid },
 };
 
 /* key definitions */
@@ -71,22 +76,30 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-l", "15", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *vifmcmd[]  = { "st", "-e", "vifmrun", NULL };
 static const char *passmenucmd[]  = { "passmenu", "-i", "-l", "15", NULL };
-static const char *bookmarkscmd[]  = { "demnu-bm", NULL };
+static const char *bookmarkscmd[]  = { "dmenu-bm", NULL };
+static const char *screenshotcmd[]  = { "dmenu-screenshot", NULL };
+static const char *todocmd[]  = { "dmenu-todo-menu", NULL };
 static const char *slockcmd[]  = { "slock", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL};
+static const char *cheatsheetcmd[] = {"t", "st", "-t", "cheatsheet", NULL};
+//static const char *calccmd[] = {"c", "gnome-calculator", "-t" "calculator", NULL};
+static const char *calccmd[] = {"c", "gnome-calculator", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY, 	                XK_l, 	   spawn,          {.v = slockcmd } },
 	{ MODKEY|ShiftMask,             XK_p, 	   spawn,          {.v = passmenucmd } },
 	{ MODKEY,                       XK_e, 	   spawn,          {.v = vifmcmd } },
-	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {.v = bookmarkscmd} },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,          {.v = bookmarkscmd} },
+	{ MODKEY,	                XK_s,      spawn,          {.v = screenshotcmd} },
+	{ MODKEY, 	                XK_l, 	   spawn,          {.v = slockcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,   		XK_slash,  togglescratch,  {.v = cheatsheetcmd } },
+	{ MODKEY,	   		XK_c, 	   togglescratch,  {.v = calccmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -97,9 +110,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_t,      spawn,          {.v = todocmd } },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
